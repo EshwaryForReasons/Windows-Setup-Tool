@@ -289,6 +289,9 @@ function install_winget_program {
 #MAIN
 
 $GENERAL_OPTIONS = @(
+    [program_info]::new("7zip.7zip", "7zip"),
+    [program_info]::new("Bitwarden.Bitwarden", "Bitwarden"),
+    [program_info]::new("Bitwarden.CLI", "Bitwarden CLI"),
     [program_info]::new("Brave.Brave", "Brave"),
     [program_info]::new("Parsec.Parsec", "Parsec"),
     [program_info]::new("DebaucheeOpenSourceGroup.Barrier", "Barrier")
@@ -303,7 +306,7 @@ $GAMES_OPTIONS = @(
 $DEVELOPMENT_OPTIONS = @(
     [program_info]::new("Git.Git", "git"),
     [program_info]::new("OpenJS.NodeJS.LTS", "node.js"),
-    [program_info]::new("Terraform", "Terraform", $flase, $true),
+    [program_info]::new("Terraform", "Terraform", $false, $true),
     [program_info]::new("Microsoft.VisualStudioCode", "Visual Studio Code", $true, $false),
     [program_info]::new("Microsoft.VisualStudio.2022.Professional", "Visual Studio", "
         --add Microsoft.VisualStudio.Workload.NativeGame;includeRecommended 
@@ -323,6 +326,22 @@ $MENUS = @(
 
 $ALL_OPTIONS = $GENERAL_OPTIONS + $GAMES_OPTIONS + $DEVELOPMENT_OPTIONS
 $SELECTED_PROGRAMS_IDS = @()
+
+#Check if winget is installed
+try {
+    Invoke-Expression "winget --version"
+    Write-Host "Winget is installed. Continuing."
+} catch {
+    Write-Host "Winget is not installed. Retriving winget-cli from github and installing."
+    insert_blank_line
+    
+    download_file "winget.msixbundle" "https://github.com/microsoft/winget-cli/releases/download/v1.4.11071/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+    Start-Job -Name InstallWingetJob -ScriptBlock {Add-AppxPackage "winget.msixbundle"}
+    Wait-Job -Name InstallWingetJob
+    cleanup_installer "winget.msixbundle"
+
+    Write-Host "Winget-cli successfully isntalled. Continuing."
+}
 
 #Place into loop so if user does not confirm selections, we can just redo the whole thing without losing any data
 while ($true) {
