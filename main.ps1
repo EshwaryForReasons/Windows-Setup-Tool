@@ -294,7 +294,8 @@ $GENERAL_OPTIONS = @(
     [program_info]::new("Bitwarden.CLI", "Bitwarden CLI"),
     [program_info]::new("Brave.Brave", "Brave"),
     [program_info]::new("Parsec.Parsec", "Parsec"),
-    [program_info]::new("DebaucheeOpenSourceGroup.Barrier", "Barrier")
+    [program_info]::new("DebaucheeOpenSourceGroup.Barrier", "Barrier"),
+    [program_info]::new("Spotify.Spotify", "Spotify")
 )
 
 $GAMES_OPTIONS = @(
@@ -318,13 +319,18 @@ $DEVELOPMENT_OPTIONS = @(
         --remove Microsoft.VisualStudio.Component.IntelliCode --passive --norestart")
 )
 
+$WINDOWS_OPTIONS = @(
+    [program_info]::new("ChangeWallpaper", "Change windows wallpaper.", $false, $true)
+)
+
 $MENUS = @(
     [menu_info]::new("General", $GENERAL_OPTIONS),
     [menu_info]::new("Games", $GAMES_OPTIONS),
-    [menu_info]::new("Development", $DEVELOPMENT_OPTIONS)
+    [menu_info]::new("Development", $DEVELOPMENT_OPTIONS),
+    [menu_info]::new("Windows", $WINDOWS_OPTIONS)
 )
 
-$ALL_OPTIONS = $GENERAL_OPTIONS + $GAMES_OPTIONS + $DEVELOPMENT_OPTIONS
+$ALL_OPTIONS = $GENERAL_OPTIONS + $GAMES_OPTIONS + $DEVELOPMENT_OPTIONS + $WINDOWS_OPTIONS
 $SELECTED_PROGRAMS_IDS = @()
 
 #Check if winget is installed
@@ -377,6 +383,24 @@ foreach ($program in $ALL_OPTIONS) {
             [Environment]::SetEnvironmentVariable("Path", $new_path, [EnvironmentVariableTarget]::Machine)
             #Remove Terraform.zip
             cleanup_installer "Terraform.zip"
+        }
+        #Handle changing windows themes
+        if ($program.program_id -eq "ChangeWallpaper") {
+            #Download all required files
+            download_file "img1.jpg" "https://github.com/EshwaryForReasons/Windows-Setup-Tool/blob/main/img1.jpg?raw=true"
+            download_file "img2.jpg" "https://github.com/EshwaryForReasons/Windows-Setup-Tool/blob/main/img2.jpg?raw=true"
+            download_file "img3.jpg" "https://github.com/EshwaryForReasons/Windows-Setup-Tool/blob/main/img3.jpg?raw=true"
+            download_file "img4.jpg" "https://github.com/EshwaryForReasons/Windows-Setup-Tool/blob/main/img4.jpg?raw=true"
+            download_file "windows.theme" "https://raw.githubusercontent.com/EshwaryForReasons/Windows-Setup-Tool/main/windows.theme"
+
+            New-Item ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme") -ItemType Directory
+            Move-Item "./img1.jpg" ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme")
+            Move-Item "./img2.jpg" ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme")
+            Move-Item "./img3.jpg" ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme")
+            Move-Item "./img4.jpg" ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme")
+            Move-Item "./windows.theme" ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme")
+
+            Start ("C:\Users\" + $Env:UserName + "\AppData\Local\Theme\windows.theme")
         }
     }
 }
