@@ -69,8 +69,8 @@ SchemeName=@%SystemRoot%\System32\mmres.dll,-800
 [Slideshow]
 Interval=1800000
 Shuffle=0
-ImagesRootPath=%SystemRoot%\Web\Wallpaper
-Item0Path=%SystemRoot%\Web\Wallpaper\ThemeA\img20.jpg
-Item1Path=%SystemRoot%\Web\Wallpaper\ThemeA\img21.jpg
-Item2Path=%SystemRoot%\Web\Wallpaper\ThemeA\img22.jpg
-Item3Path=%SystemRoot%\Web\Wallpaper\ThemeA\img23.jpg
+ImagesRootPath=%USERPROFILE%\AppData\Local\Theme
+Item0Path=%USERPROFILE%\AppData\Local\Theme\img1.jpg
+Item1Path=%USERPROFILE%\AppData\Local\Theme\img2.jpg
+Item2Path=%USERPROFILE%\AppData\Local\Theme\img3.jpg
+Item3Path=%USERPROFILE%\AppData\Local\Theme\img4.jpg
