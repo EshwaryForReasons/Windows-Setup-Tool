@@ -300,7 +300,7 @@ $GENERAL_OPTIONS = @(
 
 $GAMES_OPTIONS = @(
     [program_info]::new("Valve.Steam", "Steam"),
-    [program_info]::new("EpicGames.EpicGamesLaucnher", "Epic Games Launcher"),
+    [program_info]::new("EpicGames.EpicGamesLauncher", "Epic Games Launcher"),
     [program_info]::new("Mojang.MinecraftLauncher", "Minecraft Launcher")
 )
 
