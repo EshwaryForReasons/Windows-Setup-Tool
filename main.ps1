@@ -290,6 +290,7 @@ function install_winget_program {
 
 $GENERAL_OPTIONS = @(
     [program_info]::new("7zip.7zip", "7zip"),
+    [program_info]::new("VideoLAN.VLC", "VLC"),
     [program_info]::new("Bitwarden.Bitwarden", "Bitwarden"),
     [program_info]::new("Bitwarden.CLI", "Bitwarden CLI"),
     [program_info]::new("Brave.Brave", "Brave"),
